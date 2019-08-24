@@ -11,7 +11,6 @@ const Wrapper = styled.div`
 const Home = () => (
   <Wrapper>
     <GlobalStyle />
-    <h1>ETHBerlin 2019</h1>
     <Who />
   </Wrapper>
 );

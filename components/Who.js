@@ -4,11 +4,14 @@ import styled, { css, keyframes } from 'styled-components';
 const RED = "#ff1814";
 const BLUE = "#1700ff";
 const GRAY = "#373737";
+const PARCHMENT = "#fdf7e2";
+const MAX_FRAME_RATE = 16;
 
 const MAX_WIDTH = 800;
 
 const Wrapper = styled.div`
-
+  display: grid;
+  justify-items: center;
 `;
 
 const Canvas = styled.canvas`
@@ -51,7 +54,7 @@ class Who extends React.Component {
       currentTo: 0,
       speed: Math.PI / 120,
       strokeStyle: BLUE,
-      lineWidth: 40,
+      lineWidth: 80,
     }, {
       delay: 120,
       radius: 0.4,
@@ -66,9 +69,31 @@ class Who extends React.Component {
     this.texts = [{
       string: '626 HACKERS',
       fontSize: 22,
-      fillStyle: 'white',
+      fillStyle: '#fdf7e2',
       radius: 0.185,
       offset: 0.67 * Math.PI * 2,
+      angle: 0.4 * Math.PI * 2,
+    }, {
+      string: '38 SPONSORS',
+      fontSize: 18,
+      fillStyle: PARCHMENT,
+      radius: 0.285,
+      offset: -0.11 * Math.PI * 2,
+      angle: 0.25 * Math.PI * 2,
+    }, {
+      string: '21 MENTORS',
+      fontSize: 14,
+      fillStyle: RED,
+      radius: 0.33,
+      offset: 0.43 * Math.PI * 2,
+      angle: 0.15 * Math.PI * 2,
+    }, {
+      string: '61 VOLUNTEERS',
+      fontSize: 14,
+      fillStyle: GRAY,
+      radius: 0.43,
+      offset: 0.63 * Math.PI * 2,
+      angle: 0.15 * Math.PI * 2,
     }];
 
     this.innerCircle = {
@@ -83,7 +108,30 @@ class Who extends React.Component {
     setTimeout(this._loop, 1);
   }
 
-  _drawTextAlongArc(text, ctx, centerX, centerY, angle) {
+  _drawCenterText = (ctx) => {
+
+    let verticalOffset = this.state.size * 0.02;
+
+    // Number:
+    ctx.font = `${50 * this.state.size / 500}px Baumans`;
+    ctx.fillStyle = PARCHMENT;
+    ctx.fillText(
+      '1218',
+      this.state.size / 2,
+      this.state.size / 2 + verticalOffset,
+    );
+
+    // Attendees:
+    ctx.font = `${15 * this.state.size / 500}px Baumans`;
+    ctx.fillStyle = PARCHMENT;
+    ctx.fillText(
+      'ATTENDEES',
+      this.state.size / 2,
+      this.state.size / 2 + this.state.size * 0.04 + verticalOffset,
+    );
+  }
+
+  _drawTextAlongArc = (text, ctx, centerX, centerY) => {
     let s;
     let radius = text.radius * this.state.size;
     let rotationOffset = (this.frame / 200) + text.offset;
@@ -93,10 +141,10 @@ class Who extends React.Component {
     ctx.fillStyle = text.fillStyle;
     ctx.save();
     ctx.translate(centerX, centerY);
-    ctx.rotate(rotationOffset + -1 * angle / 2);
-    ctx.rotate(-1 * (angle / text.string.length) / 2);
+    ctx.rotate(rotationOffset + -1 * text.angle / 2);
+    ctx.rotate(-1 * (text.angle / text.string.length) / 2);
     for(var n = 0; n < text.string.length; n++) {
-      ctx.rotate(angle / text.string.length);
+      ctx.rotate(text.angle / text.string.length);
       ctx.save();
       ctx.translate(0, -1 * radius);
       s = text.string[n];
@@ -171,16 +219,17 @@ class Who extends React.Component {
         ctx,
         this.state.size / 2,
         this.state.size / 2,
-        Math.PI * 0.8,
       );
     });
+
+    this._drawCenterText(ctx);
 
     this.frame++;
   }
 
   _loop = () => {
     this.draw();
-    setTimeout(this._loop, 16);
+    setTimeout(this._loop, MAX_FRAME_RATE);
   }
 
   _clearScreen = () => {
