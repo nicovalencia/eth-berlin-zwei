@@ -5,7 +5,7 @@ const RED = "#ff1814";
 const BLUE = "#1700ff";
 const YELLOW = "#ffce00";
 const GRAY = "#373737";
-const MAX_FRAME_RATE = 16;
+const MAX_FRAME_RATE = 60;
 
 const MAX_WIDTH = 800;
 
@@ -220,7 +220,9 @@ class How extends React.Component {
 
   _loop = () => {
     this.draw();
-    setTimeout(this._loop, MAX_FRAME_RATE);
+    setTimeout(() => {
+      window.requestAnimationFrame(this._loop);
+    }, 1000 / MAX_FRAME_RATE);
   }
 
   _clearScreen = () => {

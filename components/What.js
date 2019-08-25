@@ -4,7 +4,8 @@ import styled, { css, keyframes } from 'styled-components';
 const RED = "#ff1814";
 const BLUE = "#1700ff";
 const GRAY = "#373737";
-const MAX_FRAME_RATE = 16;
+const MAX_FRAME_RATE = 60;
+const FINAL_FRAME = 500;
 
 const MAX_WIDTH = 800;
 
@@ -91,7 +92,11 @@ class What extends React.Component {
 
   _loop = () => {
     this.draw();
-    setTimeout(this._loop, MAX_FRAME_RATE);
+    setTimeout(() => {
+      if (this.frame < FINAL_FRAME) {
+        window.requestAnimationFrame(this._loop);
+      }
+    }, 1000 / MAX_FRAME_RATE);
   }
 
   _clearScreen = () => {

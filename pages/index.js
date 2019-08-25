@@ -13,9 +13,9 @@ const Wrapper = styled.div`
 const Home = () => (
   <Wrapper>
     <GlobalStyle />
-    <How />
-    <What />
     <Who />
+    <What />
+    <How />
   </Wrapper>
 );
 

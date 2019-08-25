@@ -5,7 +5,8 @@ const RED = "#ff1814";
 const BLUE = "#1700ff";
 const GRAY = "#373737";
 const PARCHMENT = "#fdf7e2";
-const MAX_FRAME_RATE = 16;
+const MAX_FRAME_RATE = 60;
+const SPEED_MULTIPLIER = 4;
 
 const MAX_WIDTH = 800;
 
@@ -34,36 +35,36 @@ class Who extends React.Component {
       offset: 0.2 * Math.PI * 2,
       to: 0.75 * Math.PI * 2,
       currentTo: 0,
-      speed: Math.PI / 100,
+      speed: Math.PI / 100 * SPEED_MULTIPLIER,
       strokeStyle: RED,
       lineWidth: 60,
     }, {
-      delay: 40,
+      delay: 20,
       radius: 0.3,
       offset: 0.1 * Math.PI * 2,
       to: 0.33 * Math.PI * 2,
       currentTo: 0,
-      speed: Math.PI / 160,
+      speed: Math.PI / 160 * SPEED_MULTIPLIER,
       strokeStyle: RED,
       lineWidth: 20,
     }, {
-      delay: 80,
+      delay: 40,
       radius: 0.3,
       offset: 1.5 * Math.PI * 2,
       to: 0.33 * Math.PI * 2,
       currentTo: 0,
-      speed: Math.PI / 120,
+      speed: Math.PI / 120 * SPEED_MULTIPLIER,
       strokeStyle: BLUE,
       lineWidth: 80,
     }, {
-      delay: 120,
+      delay: 60,
       radius: 0.4,
       offset: 0.3 * Math.PI * 2,
       to: 0.4 * Math.PI * 2,
       currentTo: 0,
-      speed: Math.PI / 200,
+      speed: Math.PI / 200 * SPEED_MULTIPLIER,
       strokeStyle: GRAY,
-      lineWidth: 20,
+      lineWidth: 10,
     }];
 
     this.texts = [{
@@ -229,7 +230,9 @@ class Who extends React.Component {
 
   _loop = () => {
     this.draw();
-    setTimeout(this._loop, MAX_FRAME_RATE);
+    setTimeout(() => {
+      window.requestAnimationFrame(this._loop);
+    }, 1000 / MAX_FRAME_RATE);
   }
 
   _clearScreen = () => {
