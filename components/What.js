@@ -4,7 +4,6 @@ import styled, { css, keyframes } from 'styled-components';
 const RED = "#ff1814";
 const BLUE = "#1700ff";
 const GRAY = "#373737";
-const PARCHMENT = "#fdf7e2";
 const MAX_FRAME_RATE = 16;
 
 const MAX_WIDTH = 800;
